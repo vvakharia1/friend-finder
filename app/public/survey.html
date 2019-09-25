@@ -31,12 +31,7 @@
         <label for="formGroupExampleInput2"
           >A link to a public photo of you (Required)</label
         >
-        <input
-          type="text"
-          class="form-control"
-          id="photo"
-          placeholder="link"
-        />
+        <input type="text" class="form-control" id="photo" placeholder="link" />
       </div>
 
       <hr />
@@ -96,88 +91,68 @@
     </form>
 
     <!-- Modals -->
-    <div
-      class="modal fade"
-      id="exampleModalScrollable"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalScrollableTitle"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div id="results-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">
-              <!-- Name of Image -->
-            </h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
+            <h2 class="modal-title"><strong>You Matched!</strong></h2>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
             </button>
           </div>
           <div class="modal-body">
-            <!-- Image -->
+            <h2 id="match-name"></h2>
+            <img id="match-img" src="" alt="No Image!" style="width: 400px" />
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
+            <button type="button" class="btn btn-default" data-dismiss="modal">
               Close
             </button>
           </div>
         </div>
       </div>
     </div>
-<!-- Capturing the form inputs -->
 
-<script type="text/javascript">
-// capturing the form inputs 
-$("#button").on("click", function (event) {
-    event.preventDefault();
+    <!-- Capturing the form inputs -->
 
-// making sure the form is validated
-function formValidation() {
-    var isValid = true;
-    $(".form-control").each(function() {
-        if ($(this).val() === "") {
-            isValid = false;
+    <script type="text/javascript">
+      // capturing the form inputs
+      $("#button").on("click", function(event) {
+        event.preventDefault();
+
+        // making sure the form is validated
+        function formValidation() {
+          var isValid = true;
+          $(".form-control").each(function() {
+            if ($(this).val() === "") {
+              isValid = false;
+            }
+          });
+
+          // if all fields are filled for the questions
+          if (validateForm()) {
+            // user data object
+            var castData = {
+              name: $("#name").val(),
+              photo: $("#photo").val(),
+              scores: [$("#q1").val(), $("#q2").val(), $("#q3").val()]
+            };
+
+            console.log(castData);
+            // grabbing user input and adding it to the API
+            $.post("/api/friends", castData, function(data) {
+              // taking the result that comes from the API and dispaying on the client side
+              $("#match-name").text(data.name);
+              $("#match-photo").attr("src", data.photo);
+
+              // display modal
+              $("#results-modal").modal("toggle");
+            });
+          }
         }
-    });
-
-// if all fields are filled for the questions
-    if (validateForm()) {
-    // user data object
-    var castData = {
-        name: $("#name").val(),
-        photo: $("#photo").val(),
-        scores: [
-            $("#q1").val(),
-            $("#q2").val(),
-            $("#q3").val()
-        ]
-    };
-
-    console.log(castData);
-
-    } 
-
-
-}
-})
-
-
-
-
-</script>
-
-
-
+      });
+    </script>
 
     <!-- Bootstrap JQuery and Javascript Tags -->
     <script
