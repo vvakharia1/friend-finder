@@ -23,19 +23,19 @@
         <input
           type="text"
           class="form-control"
-          id="formGroupExampleInput"
+          id="name"
           placeholder="first and last name"
         />
       </div>
       <div class="form-group">
         <label for="formGroupExampleInput2"
-          >Did you watch GoT? (Required)</label
+          >A link to a public photo of you (Required)</label
         >
         <input
           type="text"
           class="form-control"
-          id="formGroupExampleInput2"
-          placeholder="Yes/No?"
+          id="photo"
+          placeholder="link"
         />
       </div>
 
@@ -47,7 +47,7 @@
           >If your family member was taken from you, you would avenge
           them.</label
         >
-        <select class="form-control" id="exampleFormControlSelect1">
+        <select class="form-control" id="q1">
           <option>1 (strongly disagree)</option>
           <option>2</option>
           <option>3</option>
@@ -62,7 +62,7 @@
           >Generally speaking, you reply more on experience than
           imagination.</label
         >
-        <select class="form-control" id="exampleFormControlSelect1">
+        <select class="form-control" id="q2">
           <option>1 (strongly disagree)</option>
           <option>2</option>
           <option>3</option>
@@ -76,7 +76,7 @@
         <label for="exampleFormControlSelect1"
           >People can really rely on you.</label
         >
-        <select class="form-control" id="exampleFormControlSelect1">
+        <select class="form-control" id="q3">
           <option>1 (strongly disagree)</option>
           <option>2</option>
           <option>3</option>
@@ -134,6 +134,51 @@
         </div>
       </div>
     </div>
+<!-- Capturing the form inputs -->
+
+<script type="text/javascript">
+// capturing the form inputs 
+$("#button").on("click", function (event) {
+    event.preventDefault();
+
+// making sure the form is validated
+function formValidation() {
+    var isValid = true;
+    $(".form-control").each(function() {
+        if ($(this).val() === "") {
+            isValid = false;
+        }
+    });
+
+// if all fields are filled for the questions
+    if (validateForm()) {
+    // user data object
+    var castData = {
+        name: $("#name").val(),
+        photo: $("#photo").val(),
+        scores: [
+            $("#q1").val(),
+            $("#q2").val(),
+            $("#q3").val()
+        ]
+    };
+
+    console.log(castData);
+
+    } 
+
+
+}
+})
+
+
+
+
+</script>
+
+
+
+
     <!-- Bootstrap JQuery and Javascript Tags -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
